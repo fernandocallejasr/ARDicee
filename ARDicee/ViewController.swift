@@ -20,29 +20,37 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Set the view's delegate
         sceneView.delegate = self
         
-        //Creación de una geometría tridimensional, en este caso un cubo
-        let cube = SCNBox(width: 0.5, height: 0.5, length: 0.5, chamferRadius: 0.01)
+//        //Creación de una geometría tridimensional, en este caso un cubo
+//        let cube = SCNBox(width: 0.5, height: 0.5, length: 0.5, chamferRadius: 0.01)
+//
+//        //Creación y asignación del material que conforma el cubo
+//        let material = SCNMaterial()
+//        material.diffuse.contents = UIColor.red
+//
+//        cube.materials = [material]
+//
+//        //Creación un nodo (Un punto en un espacio en 3D)
+//        let node = SCNNode()
+//        node.position = SCNVector3(0.0, 0.1, -0.5)
+//
+//        //Asignamos una geometría al nodo creado
+//        node.geometry = cube
+//
+//        //Asignación de childNode al rootNode
+//        sceneView.scene.rootNode.addChildNode(node)
         
-        //Creación y asignación del material que conforma el cubo
-        let material = SCNMaterial()
-        material.diffuse.contents = UIColor.red
+        sceneView.autoenablesDefaultLighting = true
         
-        cube.materials = [material]
+        // Create a new scene
+        let diceScene = SCNScene(named: "art.scnassets/diceCollada.scn")!
         
-        //Creación un nodo (Un punto en un espacio en 3D)
-        let node = SCNNode()
-        node.position = SCNVector3(0.0, 0.1, -0.5)
+        if let diceNode = diceScene.rootNode.childNode(withName: "Dice", recursively: true) {
+            diceNode.position = SCNVector3(0, 0, -0.1)
+            sceneView.scene.rootNode.addChildNode(diceNode)
+        }
         
-        //Asignamos una geometría al nodo creado
-        node.geometry = cube
-        
-        //Asignación de childNode al rootNode
-        sceneView.scene.rootNode.addChildNode(node)
-        
-//        // Create a new scene
-//        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-//        // Set the scene to the view
-//        sceneView.scene = scene
+        // Set the scene to the view
+        sceneView.scene = diceScene
     }
     
     override func viewWillAppear(_ animated: Bool) {
